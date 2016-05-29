@@ -1,0 +1,3 @@
+docker_*.sh
+*.log
+minecraft_data
