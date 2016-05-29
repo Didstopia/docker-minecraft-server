@@ -1,11 +1,11 @@
 # Minecraft server that runs inside a Docker container
 
-**NOTE**: This container automatically agrees to the Minecraft server EULA, so by running this, you're also agreeing to it.
+**NOTE**: This container automatically agrees to the Minecraft server EULA, so by running this you are agreeing to it.
 
 # How to run the server
 1. Set the environment variables you wish to modify from below
 2. Optionally mount ```/minecraft``` somewhere on the host or inside another container to keep your data safe
-3. After launching the server once, modify ```/minecraft/server.properties``` to your liking
+3. Optionally, after launching the server at least once, modify ```/minecraft/server.properties``` to your liking
 
 The following environment variables are available:
 ```
