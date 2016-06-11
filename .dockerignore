@@ -1,3 +1,6 @@
 docker_*.sh
 *.log
 minecraft_data
+.DS_Store
+.git/
+.git*
