@@ -1,6 +1,6 @@
 # Minecraft server that runs inside a Docker container
 
-Updated for version 1.1.0 (automatic updating is a planned feature)
+Updated for version 1.11.2 (automatic updating is a planned feature)
 
 **NOTE**: This container automatically agrees to the Minecraft server EULA, so by running this you are agreeing to it.
 

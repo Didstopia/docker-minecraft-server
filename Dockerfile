@@ -16,7 +16,7 @@ RUN apk —update upgrade && \
     apk --update add openjdk8-jre wget ca-certificates
 
 # Install the latest Minecraft server
-RUN wget --no-check-certificate https://s3.amazonaws.com/Minecraft.Download/versions/1.10/minecraft_server.1.10.jar -O /minecraft_server.jar
+RUN wget --no-check-certificate https://s3.amazonaws.com/Minecraft.Download/versions/1.11.2/minecraft_server.1.11.2.jar -O /minecraft_server.jar
 RUN chmod +x /minecraft_server.jar
 
 # Copy the startup scripts (which also handles automatic updates)
