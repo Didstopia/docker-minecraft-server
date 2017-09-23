@@ -1,35 +1,42 @@
-FROM alpine:3.3
+FROM didstopia/base:alpine-3.5
 
-MAINTAINER Pauli Jokela <pauli.jokela@didstopia.com>
+LABEL maintainer="Didstopia <support@didstopia.com>"
 
 # System variables for use with installation
-ENV JAVA_VERSION_MAJOR=8 \
-    JAVA_VERSION_MINOR=74 \
-    JAVA_VERSION_BUILD=02 \
-    JAVA_PACKAGE=server-jre \
-    JAVA_HOME=/opt/jdk \
-    PATH=${PATH}:/opt/jdk/bin \
-    LANG=C.UTF-8
+ENV _JAVA_OPTIONS "-XX:+UseG1GC -Djava.security.egd=file:/dev/urandom"
+ENV PATH "${PATH}:/opt/jdk/bin"
+ENV LANG "C.UTF-8"
+
+# Minecraft server specific environment variables
+ENV MINECRAFT_SERVER_VERSION "1.12.2"
+ENV MINECRAFT_SERVER_MEMORY_MIN "1G"
+ENV MINECRAFT_SERVER_MEMORY_MAX "1G"
+ENV MINECRAFT_SERVER_AGREE_EULA "true"
+ENV MINECRAFT_SERVER_ARGUMENTS "nogui"
 
 # Install dependencies
-RUN apk —update upgrade && \
-    apk --update add openjdk8-jre wget ca-certificates
+RUN apk --no-cache add \
+    openjdk8-jre \
+    wget \
+    ca-certificates \
+    bash
 
 # Install the latest Minecraft server
-RUN wget --no-check-certificate https://s3.amazonaws.com/Minecraft.Download/versions/1.11.2/minecraft_server.1.11.2.jar -O /minecraft_server.jar
+RUN wget --no-check-certificate \
+        "https://s3.amazonaws.com/Minecraft.Download/versions/${MINECRAFT_SERVER_VERSION}/minecraft_server.${MINECRAFT_SERVER_VERSION}.jar" \
+        -O "/minecraft_server.jar"
 RUN chmod +x /minecraft_server.jar
 
 # Copy the startup scripts (which also handles automatic updates)
 ADD start.sh /start.sh
 RUN chmod +x /start.sh
 
-# Setup the environment variables
-ENV MINECRAFT_STARTUP_ARGS "–Xmx1024M -Xms1024M"
-
-# Set the volume
-VOLUME ["/minecraft"]
+# Run as the "docker" user by default
+ENV PGID 1000
+ENV PUID 1000
 
 # Expose the default server port
 EXPOSE 25565
 
-ENTRYPOINT ["/start.sh"]
+# Set the startup command
+CMD ["/bin/bash", "/start.sh"]

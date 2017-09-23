@@ -1,18 +1,22 @@
-# Minecraft server that runs inside a Docker container
+# Minecraft Server for Docker
 
-Updated for version 1.11.2 (automatic updating is a planned feature)
+Latest supported/tested version: **1.12.2** (automatic updates is a planned feature)
 
-**NOTE**: This container automatically agrees to the Minecraft server EULA, so by running this you are agreeing to it.
+**DISCLAIMER**: By default, this image automatically agrees to the Minecraft Server EULA, so by running this you are agreeing to it.
 
-# How to run the server
-1. Set the environment variables you wish to modify from below
-2. Optionally mount ```/minecraft``` somewhere on the host or inside another container to keep your data safe
-3. Optionally, after launching the server at least once, modify ```/minecraft/server.properties``` to your liking
+## How to run the server
+
+1. Modify the environment variables to specify memory usage etc.
+2. Mount `/app` on the host
+3. Start and stop the server, then modify `/app/server.properties` and start it again
 
 The following environment variables are available:
-```
-MINECRAFT_STARTUP_ARGS (DEFAULT: "–Xmx1024M -Xms1024M" - Sets the minimum and maximum amount of memory to be used)
-MINECRAFT_EXTRA_STARTUP_ARGS (DEFAULT: "-Dcom.mojang.eula.agree=true -Djava.security.egd=file:/dev/urandom" - By default skips the EULA and produces better randomness on Docker)
+
+```text
+MINECRAFT_SERVER_MEMORY_MIN   (DEFAULT: "1G" - Sets the minimum amount of memory to be used)
+MINECRAFT_SERVER_MEMORY_MAX   (DEFAULT: "1G" - Sets the maximum amount of memory to be used)
+MINECRAFT_SERVER_AGREE_EULA   (DEFAULT: "true" - Automatically agrees to the EULA)
+MINECRAFT_SERVER_ARGUMENTS    (DEFAULT: "nogui" - Sets the startup parameters for Minecraft Server)
 ```
 
-If you need help, have questions or bug submissions, feel free to contact me **@Dids** on Twitter, and on the *Rust Server Owners* Slack community.
+If you need help, have questions or bug submissions, feel free to contact me **@Dids** on Twitter or post an issue here on GitHub.

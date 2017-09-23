@@ -1,18 +1,51 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
-# Copy the server in place
-cp /minecraft_server.jar /minecraft/minecraft_server.jar
+set -e
+set -o pipefail
 
-# Agree to the EULA
-sed -i -e s/"eula=false"/"eula=true"/ /minecraft/eula.txt
+function init()
+{
+    echo "Initializing.."
 
-# Create required files (if necessary)
-touch /minecraft/banned-players.json
-touch /minecraft/banned-ips.json
-touch /minecraft/ops.json
-touch /minecraft/whitelist.json
+    # Install or update the server
+    cp -u /minecraft_server.jar /app/minecraft_server.jar
 
-# Start the Minecraft server
-echo "Starting server.."
-_JAVA_OPTIONS=$MINECRAFT_STARTUP_ARGS
-(cd /minecraft && exec java -jar /minecraft/minecraft_server.jar nogui)
+    # Agree to EULA
+    agreeToEULA
+
+    # Start the server
+    startServer
+}
+
+function startServer()
+{
+    # Setup startup arguments for Java/Minecraft
+    echo "Minimum server memory: ${MINECRAFT_SERVER_MEMORY_MIN}"
+    echo "Maximum server memory: ${MINECRAFT_SERVER_MEMORY_MAX}"
+    echo ""
+    _JAVA_OPTIONS="${_JAVA_OPTIONS} -Xms${MINECRAFT_SERVER_MEMORY_MIN} -Xmx${MINECRAFT_SERVER_MEMORY_MAX}"
+    
+    # Start the Minecraft server
+    cd /app
+    exec java -jar "/app/minecraft_server.jar" "${MINECRAFT_SERVER_ARGUMENTS}"
+}
+
+function agreeToEULA()
+{
+    if [[ ${MINECRAFT_SERVER_AGREE_EULA,,} == "true" ]]; then
+        echo ""
+        echo "Automatically agreeing to EULA.."
+        echo ""
+        EULA_FILE="/app/eula.txt"
+        if [ ! -f "${EULA_FILE}" ]; then
+            echo "eula=true" > "${EULA_FILE}"
+        else
+            if grep -q "eula=false" "${EULA_FILE}"; then
+                sed -i -e s/"eula=false"/"eula=true"/ "${EULA_FILE}"
+            fi
+        fi
+    fi
+}
+
+# Initiate the startup process
+init
