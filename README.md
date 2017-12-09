@@ -17,6 +17,7 @@ MINECRAFT_SERVER_MEMORY_MIN   (DEFAULT: "1G" - Sets the minimum amount of memory
 MINECRAFT_SERVER_MEMORY_MAX   (DEFAULT: "1G" - Sets the maximum amount of memory to be used)
 MINECRAFT_SERVER_AGREE_EULA   (DEFAULT: "true" - Automatically agrees to the EULA)
 MINECRAFT_SERVER_ARGUMENTS    (DEFAULT: "nogui" - Sets the startup parameters for Minecraft Server)
+MINECRAFT_SERVER_CUSTOM_JAR   (DEFAULT: <none> - Sets a custom .jar file to run, useful for Forge etc.)
 ```
 
 If you need help, have questions or bug submissions, feel free to contact me **@Dids** on Twitter or post an issue here on GitHub.
