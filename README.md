@@ -1,6 +1,6 @@
 # Minecraft Server for Docker
 
-Latest supported/tested version: **1.12.2** (automatic updates is a planned feature)
+Latest supported/tested version: **1.13** (automatic updates is a planned feature)
 
 **DISCLAIMER**: By default, this image automatically agrees to the Minecraft Server EULA, so by running this you are agreeing to it.
 
