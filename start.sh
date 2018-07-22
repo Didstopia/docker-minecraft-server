@@ -9,7 +9,7 @@ function init()
 
     # Install or update the server
     if [ -z ${MINECRAFT_SERVER_CUSTOM_JAR+x} ]; then
-        cp -u /minecraft_server.jar /app/minecraft_server.jar
+        cp -u /server.jar /app/server.jar
     fi
 
     # Agree to EULA
@@ -29,7 +29,7 @@ function startServer()
     
     # Start the Minecraft server
     cd /app
-    exec java -jar "/app/${MINECRAFT_SERVER_CUSTOM_JAR:=minecraft_server.jar}" "${MINECRAFT_SERVER_ARGUMENTS}"
+    exec java -jar "/app/${MINECRAFT_SERVER_CUSTOM_JAR:=server.jar}" "${MINECRAFT_SERVER_ARGUMENTS}"
 }
 
 function agreeToEULA()

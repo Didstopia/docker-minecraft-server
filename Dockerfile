@@ -8,7 +8,7 @@ ENV PATH "${PATH}:/opt/jdk/bin"
 ENV LANG "C.UTF-8"
 
 # Minecraft server specific environment variables
-ENV MINECRAFT_SERVER_VERSION "1.13"
+ENV MINECRAFT_SERVER_DOWNLOAD_URL "https://minecraft.net/en-us/download/server"
 ENV MINECRAFT_SERVER_MEMORY_MIN "1G"
 ENV MINECRAFT_SERVER_MEMORY_MAX "1G"
 ENV MINECRAFT_SERVER_AGREE_EULA "true"
@@ -19,13 +19,14 @@ RUN apk --no-cache add \
     openjdk8-jre \
     wget \
     ca-certificates \
-    bash
+    bash \
+    curl
 
 # Install the latest Minecraft server
-RUN wget --no-check-certificate \
-        "https://s3.amazonaws.com/Minecraft.Download/versions/${MINECRAFT_SERVER_VERSION}/minecraft_server.${MINECRAFT_SERVER_VERSION}.jar" \
-        -O "/minecraft_server.jar"
-RUN chmod +x /minecraft_server.jar
+RUN set -x; wget --no-check-certificate \
+        "$(curl "$MINECRAFT_SERVER_DOWNLOAD_URL" | grep launcher.mojang | awk -F\" '{print $2}')" \
+        -O "/server.jar"
+RUN chmod +x /server.jar
 
 # Copy the startup scripts (which also handles automatic updates)
 ADD start.sh /start.sh
