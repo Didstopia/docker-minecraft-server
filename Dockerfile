@@ -8,7 +8,7 @@ ENV PATH "${PATH}:/opt/jdk/bin"
 ENV LANG "C.UTF-8"
 
 # Minecraft server specific environment variables
-ENV MINECRAFT_SERVER_DOWNLOAD_URL "https://minecraft.net/en-us/download/server"
+ENV MINECRAFT_SERVER_DOWNLOAD_URL "https://minecraft.net/en-us/download/server/"
 ENV MINECRAFT_SERVER_MEMORY_MIN "1G"
 ENV MINECRAFT_SERVER_MEMORY_MAX "1G"
 ENV MINECRAFT_SERVER_AGREE_EULA "true"
