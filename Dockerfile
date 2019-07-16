@@ -1,4 +1,4 @@
-FROM didstopia/base:alpine-edge
+FROM didstopia/base:alpine-3.10
 
 LABEL maintainer="Didstopia <support@didstopia.com>"
 
@@ -16,7 +16,7 @@ ENV MINECRAFT_SERVER_ARGUMENTS "nogui"
 
 # Install dependencies
 RUN apk --no-cache add \
-    openjdk8-jre \
+    openjdk11-jre \
     wget \
     ca-certificates \
     bash \
