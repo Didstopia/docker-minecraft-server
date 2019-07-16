@@ -1,4 +1,4 @@
-FROM didstopia/base:alpine-3.5
+FROM didstopia/base:alpine-edge
 
 LABEL maintainer="Didstopia <support@didstopia.com>"
 
@@ -24,7 +24,7 @@ RUN apk --no-cache add \
 
 # Install the latest Minecraft server
 RUN set -x; wget --no-check-certificate \
-        "$(curl "$MINECRAFT_SERVER_DOWNLOAD_URL" | grep launcher.mojang | awk -F\" '{print $2}')" \
+        "$(curl -L "$MINECRAFT_SERVER_DOWNLOAD_URL" | grep launcher.mojang | awk -F\" '{print $2}')" \
         -O "/server.jar"
 RUN chmod +x /server.jar
 
