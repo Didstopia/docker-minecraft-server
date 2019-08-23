@@ -16,7 +16,7 @@ ENV MINECRAFT_SERVER_ARGUMENTS "nogui"
 
 # Install dependencies
 RUN apk --no-cache add \
-    openjdk11-jre \
+    openjdk8-jre \
     wget \
     ca-certificates \
     bash \
