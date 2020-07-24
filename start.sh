@@ -37,14 +37,17 @@ function startServer()
   # Switch to the server directory
   cd /app
 
-  # Enable or disable RCON
-  sed -ir "s/^[#]*\s*enable-rcon=.*/enable-rcon=$MINECRAFT_SERVER_RCON_ENABLE/" server.properties
+  # Check that server.properties exists
+  if [ -f "/app/server.properties" ]; then
+    # Enable or disable RCON
+    sed -i -r "s/^[#]*\s*enable-rcon=.*/enable-rcon=$MINECRAFT_SERVER_RCON_ENABLE/" server.properties
 
-  # Set RCON port
-  sed -ir "s/^[#]*\s*rcon.port=.*/rcon.port=$MINECRAFT_SERVER_RCON_PORT/" server.properties
+    # Set RCON port
+    sed -i -r "s/^[#]*\s*rcon.port=.*/rcon.port=$MINECRAFT_SERVER_RCON_PORT/" server.properties
 
-  # Set RCON password
-  sed -ir "s/^[#]*\s*rcon.password=.*/rcon.password=$MINECRAFT_SERVER_RCON_PASSWORD/" server.properties
+    # Set RCON password
+    sed -i -r "s/^[#]*\s*rcon.password=.*/rcon.password=$MINECRAFT_SERVER_RCON_PASSWORD/" server.properties
+  fi
   
   # Start the Minecraft server
   exec java -jar "/app/${MINECRAFT_SERVER_CUSTOM_JAR:=server.jar}" "${MINECRAFT_SERVER_ARGUMENTS}"
@@ -59,8 +62,10 @@ function checkForUpdates()
   LATEST_SERVER_URL=$(curl -sL "$MINECRAFT_SERVER_DOWNLOAD_URL" | grep launcher.mojang | awk -F\" '{print $2}')
   wget --quiet --no-check-certificate "${LATEST_SERVER_URL}" -O "/tmp/server_latest.jar" > /dev/null
 
-  # Make sure that the current server path always exists
-  touch /app/server.jar
+  # Make sure the current server path always exists
+  if [ ! -f "/app/server.jar" ]; then
+    cp -f /server.jar /app/server.jar
+  fi
 
   # Get the hashes for the current and latest servers
   OLD_SERVER_HASH=($(md5sum /app/server.jar))
