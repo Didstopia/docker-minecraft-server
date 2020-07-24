@@ -1,4 +1,4 @@
-FROM didstopia/base:alpine-3.10
+FROM didstopia/base:alpine-3.12
 
 LABEL maintainer="Didstopia <support@didstopia.com>"
 
@@ -13,6 +13,9 @@ ENV MINECRAFT_SERVER_MEMORY_MIN "1G"
 ENV MINECRAFT_SERVER_MEMORY_MAX "1G"
 ENV MINECRAFT_SERVER_AGREE_EULA "true"
 ENV MINECRAFT_SERVER_ARGUMENTS "nogui"
+ENV MINECRAFT_SERVER_RCON_ENABLE "false"
+ENV MINECRAFT_SERVER_RCON_PORT "25575"
+ENV MINECRAFT_SERVER_RCON_PASSWORD ""
 
 # Install dependencies
 RUN apk --no-cache add \
@@ -23,10 +26,10 @@ RUN apk --no-cache add \
     curl
 
 # Install the latest Minecraft server
-RUN set -x; wget --no-check-certificate \
-        "$(curl -L "$MINECRAFT_SERVER_DOWNLOAD_URL" | grep launcher.mojang | awk -F\" '{print $2}')" \
+RUN set -x; wget --quiet --no-check-certificate \
+        "$(curl -sL "$MINECRAFT_SERVER_DOWNLOAD_URL" | grep launcher.mojang | awk -F\" '{print $2}')" \
         -O "/server.jar"
-RUN chmod +x /server.jar
+RUN chmod a+rwx /server.jar
 
 # Copy the startup scripts (which also handles automatic updates)
 ADD start.sh /start.sh
@@ -38,6 +41,9 @@ ENV PUID 1000
 
 # Expose the default server port
 EXPOSE 25565
+
+# Expose the default RCON port
+EXPOSE 25575
 
 # Set the startup command
 CMD ["/bin/bash", "/start.sh"]
