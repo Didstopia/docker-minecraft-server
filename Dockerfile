@@ -45,5 +45,8 @@ EXPOSE 25565
 # Expose the default RCON port
 EXPOSE 25575
 
+# Export the default volume (already exported in base image, but QNAP doesn't detect this)
+VOLUME ["/app"]
+
 # Set the startup command
 CMD ["/bin/bash", "/start.sh"]
