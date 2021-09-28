@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -o pipefail
+
 # Make sure the image is up to date
 ./docker_build.sh
 

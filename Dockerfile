@@ -1,4 +1,4 @@
-FROM didstopia/base:alpine-3.12
+FROM didstopia/base:alpine-3.14
 
 LABEL maintainer="Didstopia <support@didstopia.com>"
 
@@ -19,11 +19,14 @@ ENV MINECRAFT_SERVER_RCON_PASSWORD ""
 
 # Install dependencies
 RUN apk --no-cache add \
-    openjdk8-jre \
     wget \
     ca-certificates \
     bash \
     curl
+
+# Install Java
+RUN apk --no-cache add -X http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+    openjdk16-jre
 
 # Install the latest Minecraft server
 RUN set -x; wget --quiet --no-check-certificate \
