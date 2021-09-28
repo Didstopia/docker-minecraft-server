@@ -27,7 +27,7 @@ RUN apk --no-cache add \
 
 # Install the latest Minecraft server
 RUN set -x; wget --quiet --no-check-certificate \
-        "$(curl -sL "$MINECRAFT_SERVER_DOWNLOAD_URL" | grep launcher.mojang | awk -F\" '{print $2}')" \
+        "$(RANDVERSION=$(echo $((1 + $RANDOM % 4000))) curl -sL -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.$RANDVERSION.212 Safari/537.36" "$MINECRAFT_SERVER_DOWNLOAD_URL" | grep launcher.mojang | awk -F\" '{print $2}')" \
         -O "/server.jar"
 RUN chmod a+rwx /server.jar
 
